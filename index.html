@@ -27,29 +27,74 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <script type="text/javascript">
     const hours = ["9AM", "10AM", "11AM", "12PM", "1PM", "2PM", "3PM", "4PM", "5PM"];
+    let tasks = [];
 
-    for (i = 0; i < hours.length; i++) {
-      var newBlock = $("<div>");
-      var newHour = $("<div>");
-      var newRow = $("<div>");
-      var newSave = $("<div>");
-      newBlock.addClass("time-block");
-      newBlock.addClass("row");
-      newHour.addClass("hour");
-      newHour.addClass("col");
-      newHour.text(hours[i]);
-      newRow.addClass("textarea");
-      newRow.addClass("future");
-      newRow.addClass("col-10");
-      newRow.attr("data-hour", hours[i]);
-      console.log(newRow.attr("data-hour"));
-      newSave.addClass("col");
-      newSave.addClass("saveBtn");
-      $(".container").append(newBlock);
-      newBlock.append(newHour);
-      newBlock.append(newRow);
-      newBlock.append(newSave);
+    function getTasks() {
+      let storedTasks = JSON.parse(localStorage.getItem("tasks"))
+      if (storedTasks !== null) {
+        tasks = storedTasks;
+        console.log(tasks);
+        console.log(typeof (tasks));
+      }
+    };
+
+    function storeTasks() {
+      localStorage.setItem("tasks", JSON.stringify(tasks));
     }
+
+    function renderCal() {
+      for (i = 0; i < hours.length; i++) {
+        var newBlock = $("<div>");
+        var newHour = $("<div>");
+        var newText = $("<textarea>");
+        var newSave = $("<button>");
+        newBlock.addClass("time-block");
+        newBlock.addClass("row");
+        newHour.addClass("hour");
+        newHour.addClass("col");
+        newHour.text(hours[i]);
+        newText.addClass("textarea");
+        newText.addClass("present");
+        newText.addClass("col-10");
+        newText.attr("data-hour", hours[i]);
+        for (j = 0; j < tasks.length; j++) {
+          if (tasks[j].hour === hours[i]) {
+            newText.text(tasks[j].text);
+          }
+        }
+        newText.attr("id", hours[i]);
+        console.log(newText.attr("data-hour"));
+        newSave.addClass("col");
+        newSave.addClass("saveBtn");
+        newSave.text("💾");
+        newSave.attr("data-hour", hours[i]);
+        newSave.click(function () {
+          let temp = $(this).attr("data-hour");
+          console.log(temp);
+          let text = $("#" + temp).val();
+          console.log(text);
+          let myTask = {
+            hour: "" + temp,
+            text: "" + text
+          }
+          console.log(myTask);
+          tasks.push(myTask);
+          storeTasks();
+        });
+        $(".container").append(newBlock);
+        newBlock.append(newHour);
+        newBlock.append(newText);
+        newBlock.append(newSave);
+        console.log(localStorage);
+        //render tasks for each data-hour text area that has task
+      }
+    };
+
+    getTasks();
+    renderCal();
+    //save tasks
+    //test before or after with moment
+
 
 
 
