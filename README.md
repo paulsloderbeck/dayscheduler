@@ -10,4 +10,4 @@ Finally, the scheduler uses moment.js to display the current date to the user. I
 
 Check it out at https://paulsloderbeck.github.io/dayscheduler/
 
-![ScreenShot](https://www.github.com/paulsloderbeck/dayscheduler/master/screenshot.png)
+![ScreenShot](https://github.com/paulsloderbeck/dayscheduler/blob/master/screenshot.png)
